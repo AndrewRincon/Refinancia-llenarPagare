@@ -1,0 +1,39 @@
+<div class="tool-bar">
+  <div class="input-icons">
+    <input class="input-field" type="text" placeholder="Buscar">
+    <div *ngIf="wordSearch != ''" class="cancel_search" title="Cancelar Busqueda">
+      <i class="icon-close"></i>
+    </div>
+    <img src="../../../../../assets/img/lupa.svg" alt="">
+  </div>
+  <!-- <div class="icon-item">
+      <img src="../../../../../assets/img/icon-tags.svg" alt="">
+  </div>
+  <div class="icon-item">
+      <img src="../../../../../assets/img/icon-folder.svg" alt="">
+  </div> -->
+  <div class="icon-item">
+    <a [routerLink]="'/main/plantillas'" class="home__button">
+      <i class='icon-home'></i>
+    </a>
+  </div>
+</div>
+
+<div class="templates__history">
+  <div class="templates__top--nav">
+    <h2 class="templates__title"> Crea y administra tus plantillas </h2>
+  </div>
+
+  <div class="horz-line"></div>
+
+  <div class="templates-box">
+    <div>
+      <h4 class="header__subtitle">ProcesoCliente Externo</h4>
+      <input [(ngModel)]="ProcesoCliente" class="input-template" type="text" placeholder="Proceso cliente externo">
+    </div>
+    <div class="create-template" (click)="crearPlantilla()">
+      <img class="create-template-img" src="../../../../../assets/img/icon-add-template.svg" alt="">
+      <p class="create-template-txt">Subir Archivo</p>
+    </div>
+  </div>
+</div>

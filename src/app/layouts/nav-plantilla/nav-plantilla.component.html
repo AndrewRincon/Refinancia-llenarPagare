@@ -1,0 +1,40 @@
+<!--BARRA SUPERIOR-->
+<div class="desk-nav-bar">
+  <div class="app-logo">
+    <a [routerLink]='["/main/pagares"]'>
+      <img class="logo" src="../../../assets/img/logo-white5.svg" alt="">
+    </a>
+  </div>
+
+  <div class="select-box">
+    
+  </div>
+
+  <div class="profile-btn">
+    <a class="" (click)="verPerfil=!verPerfil"> <i class="icon-profile"></i> </a>
+  </div>
+
+  <div class="profile-info" [hidden]="!verPerfil">
+    <div class="info-client">
+      <div class="info-img-shop">
+        <img class="img-mobile" [src]="globals.logoActivo" alt="" *ngIf="globals.logoActivo">
+      </div>
+      <div class="info-name-shop">{{Persona.PersonaPrimerNombre}} {{Persona.PersonaPrimerApellido}}</div>
+      <div *ngIf="Persona.TipoIdentificacionId == 1" class="info-account"><span class="info-number">C.C. </span>{{Persona.PersonaIdentificacion}} </div>
+      <div *ngIf="Persona.TipoIdentificacionId == 2" class="info-account"><span class="info-number">C.E. </span>{{Persona.PersonaIdentificacion}} </div>
+      <div class="info-cant-docs"><span class="info-number">{{RolPersona}} </span></div>
+      <div>
+        <div class="close-account" (click)="CerrarSesion()"> <i class="icon-logout"></i> Cerrar Sesión</div>
+      </div>
+      <hr />
+      <div class="info-terms">
+        <div class="terms-txt">
+          Condiciones del servicio
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+</div>

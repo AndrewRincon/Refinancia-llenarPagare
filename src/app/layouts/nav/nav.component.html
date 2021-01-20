@@ -1,0 +1,109 @@
+<!--BARRA SUPERIOR-->
+<div class="desk-nav-bar">
+  <div class="app-logo">
+    <a [routerLink]='["/main/pagares"]'>
+      <img class="logo" src="../../../assets/img/logo-white5.svg" alt="">
+    </a>
+  </div>
+
+  <div class="select-box">
+    <div *ngIf="globals.empresas != null && globals.empresas.length > 0" class="slt-company">
+      <select class="custom-select my-select" (change)="CambioCompania($event.target.value)" [(ngModel)]="ddlEmpresaSelectedValue">
+        <option *ngFor="let item of globals.empresas" [value]="item.id"> {{item.empresaRazonSocial}}</option>
+      </select>
+      <div class="ico-arrow">
+        <i class="icon-arrow-point-to-right"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-btn">
+    <a class="" (click)="verPerfil=!verPerfil"> <i class="icon-profile"></i> </a>
+  </div>
+
+  <div class="profile-info" [hidden]="!verPerfil">
+    <div class="info-client">
+      <div class="info-img-shop">
+        <img class="img-mobile" [src]="globals.logoActivo" alt="" *ngIf="globals.logoActivo">
+      </div>
+      <div class="info-name-shop">{{Persona.PersonaPrimerNombre}} {{Persona.PersonaPrimerApellido}}</div>
+      <div *ngIf="Persona.TipoIdentificacionId == 1" class="info-account"><span class="info-number">C.C. </span>{{Persona.PersonaIdentificacion}} </div>
+      <div *ngIf="Persona.TipoIdentificacionId == 2" class="info-account"><span class="info-number">C.E. </span>{{Persona.PersonaIdentificacion}} </div>
+      <div class="info-cant-docs"><span class="info-number">{{RolPersona}} </span></div>
+      <div>
+        <div class="close-account" (click)="CerrarSesion()"> <i class="icon-logout"></i> Cerrar Sesión</div>
+      </div>
+      <hr />
+      <div class="info-terms">
+        <div class="terms-txt">
+          Condiciones del servicio
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+</div>
+
+<!--DATA DE BARRA IZQUIERDA-->
+<div class="nav-bar" *ngIf="globals.navEmpresaIdentificacion">
+  <!--mobile-->
+  <div class="ctrl-bar">
+    <div class="logo_dh animated app-logo-mobile">
+      <img class="logo-mobile" src="../../../assets/img/logo-white5.svg" alt="">
+    </div>
+  </div>
+
+  <div class="logo-shop animated fadeIn">
+    <div class="info-box">
+      <div class="name-shop"> {{globals.navRazonSocialActual}}</div>
+      <div class="account"> Nit {{globals.navEmpresaIdentificacion}}</div>
+      <div class="cant-docs"> Pagarés {{globals.cantidadPagares}}</div>
+    </div>
+    <div class="shop-box">
+      <img class="img-radius" [src]="globals.logoActivo" alt="" *ngIf="globals.logoActivo">
+      <img class="img-radius" src="/assets/img/sinfoto-default.jpg" alt="" *ngIf="!globals.logoActivo">
+    </div>
+  </div>
+
+  <div class="bar-menu">
+
+    <div *ngIf="globals.empresas != null && globals.empresas.length > 0" class="slt-company-mobile">
+      <select class="custom-select my-select" (change)="CambioCompania($event.target.value)" [(ngModel)]="ddlEmpresaSelectedValue">
+        <option *ngFor="let item of globals.empresas" [value]="item.id"> {{item.empresaRazonSocial}}</option>
+      </select>
+      <div class="ico-arrow">
+        <i class="icon-arrow-point-to-right"></i>
+      </div>
+    </div>
+
+    <div class="topnav animated fadeIn" [ngClass]="{'responsive': menuResponsive}" id="myTopnav">
+      <a class="btnicon-rwd" (click)="ResponsiveMenuClick()"> Menu <i class="icon-menu-button-of-three-horizontal-lines"></i> </a>
+      <ul *ngIf="menuHabilitado">
+
+        <li routerLinkActive="active"><a [routerLink]='["/main/pagares"]'> <div class="iconTam"><i class="icon-pagares"></i></div> Mis Pagares &nbsp;  <span class="cantiMenu" *ngIf="globals.cantidadPagaresInicial != '0'">{{globals.cantidadPagaresInicial}}</span></a></li>
+        <li routerLinkActive="active"><a [routerLink]='["/main/endoso"]'> <div class="iconTam"><i class="icon-partnership"></i></div> Mis Endosos &nbsp; <span class="cantiMenu" *ngIf="globals.cantidadEndososInicial != '0'"> {{globals.cantidadEndososInicial}} </span></a></li>
+        <li routerLinkActive="active"><a [routerLink]='["/main/recepcion"]'> <div class="iconTam"><i class="icon-endosos"></i></div> Recepción de Pagares &nbsp;<span class="cantiMenu" *ngIf="globals.cantidadRecepcionPagares != '0'">{{globals.cantidadRecepcionPagares}}</span> </a></li>
+        <li routerLinkActive="active"><a [routerLink]='["/main/proceso"]'> <div class="iconTam"><i class="icon-wait"></i></div> Endosos en Proceso &nbsp; <span class="cantiMenu" *ngIf="globals.cantidadProcesoPagares != '0'">{{globals.cantidadProcesoPagares}}</span></a></li>
+        <li routerLinkActive="active">
+          <a [routerLink]='["/main/cancelar"]'> <div class="iconTam"><i class="icon-bin"></i></div> Cancelar Pagares &nbsp;<span class="cantiMenu" *ngIf="globals.cantidadCanceladosPagares != '0'">{{this.globals.cantidadCanceladosPagares}}</span></a>
+        </li>
+        <li routerLinkActive="active"> <a [routerLink]='["/main/endosomasivo"]'> <div class="iconTam"><i class="icon-file-excel"></i></div> Endoso Masivo</a></li>
+        <li routerLinkActive="active" *ngIf="menuRL"> <a [routerLink]='["/main/logendoso"]'> <div class="iconTam"><i class="icon-log"></i></div> Log Endoso</a> </li>
+        <li routerLinkActive="active"> <a [routerLink]='["/main/plantillas"]'> <div class="iconTam"><i class="icon-pdf"></i></div>Plantilla Pagaré</a> </li>
+        <li class="dropdown-btn">
+          <a id="deploy" (click)="SubmenuConfiguracion()"> <div class="iconTam"><i class="icon-config"></i></div> Configuración <i class="icon-down-arrow submenu-down"></i></a>
+          <ul id="submenu" [ngClass]="{'menu-animated': desplegarSubmenuConfig,'submenu': !desplegarSubmenuConfig}">
+            <li routerLinkActive="active"> <a [routerLink]='["/main/certificado"]'> Configuración de certificados </a> </li>
+            <li routerLinkActive="active" *ngIf="menuRL"> <a [routerLink]='["/main/ayudantes"]'> Administración de usuarios </a> </li>
+            <li routerLinkActive="active" *ngIf="menuRL"> <a [routerLink]='["/main/empresafavoritos"]'>Empresas Favoritas</a> </li>
+            <li routerLinkActive="active" *ngIf="menuRL"> <a (click)="Configuracion('/main/endoso-automatico')"> Endosos automáticos</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+</div>

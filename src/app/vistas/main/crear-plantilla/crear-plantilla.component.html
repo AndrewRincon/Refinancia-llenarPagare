@@ -1,0 +1,69 @@
+<div class="file__content fir-content">
+  <button class="signer__mobile__button" (click)="toggleSignerMenu()">
+    <span class="icon icon-more"></span> Campos Basicos
+  </button>
+
+  <div id="tools-menu" [class.opened]="showMobileMenu" class="signer__menu" #menu>
+    <div class="selected__signers">
+      <div>
+        <div class="signers__header d-flex" [ngStyle]="{'line-height': '1'}">
+          <h4 class="header__subtitle" [ngStyle]="{'margin': '0'}">Campos básicos:</h4>
+          <div class="display-message">
+            <img src="../../../../../assets/img/information-button.svg" alt="">
+          </div>
+          <div class="alt__container">
+            <div class="alt__message">
+              <p>Selecciona el campo que</p>
+              <p>deseas agregar al documento.</p>
+            </div>
+          </div>
+        </div>
+        <div class="signer__options">
+          <button [ngStyle]="!isEmpty() && { 'background-color': roles[currentRole].color }" class="signer__item"
+                  id="text-field" (click)="createAnnot('Texto', annotationType.TEXT)">
+            <i class="icon icon-field-texto"></i>
+            <span class="tool__name">Texto</span>
+          </button>
+        </div>
+
+        <div class="signers__header">
+          <h4 class="header__subtitle">Placeholder</h4>
+          <!--<input #placeholder [(ngModel)]="currentTextAnnot" (keyup)="changeContent(placeholder.value)" maxlength="50"
+          class="input-template" type="text" placeholder="Place Holder" [(disabled)]="activeProperties">-->
+          <input #placeholder (keyup)="changeContent(placeholder.value)" maxlength="50"
+                 class="input-template" type="text" placeholder="Place Holder" [(disabled)]="activeProperties">
+        </div>
+      </div>
+
+      <div class="signers__header">
+        <h4 class="header__subtitle">Acciones</h4>
+        <button class="continue-btn-3 btn-block ml-10 algn-r-v3" (click)="createTemplate(false)" *ngIf="!isEdit"
+                [disabled]="!(annotCount > 0)">
+          Crear Plantilla
+        </button>
+        <button class="continue-btn-3 btn-block ml-10 algn-r-v3" (click)="createTemplate(true)" *ngIf="!isEdit"
+                [disabled]="!(annotCount > 0)">
+          Crear y descargar Plantilla
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="file__wrapper box-2">
+    <div class="header-menu">
+      <div class="j-right">
+        <p class="file__name algn-l">{{ fileName }}</p>
+      </div>
+      <div class="j-left">
+        <button class="continue-btn-4 toolbotton ml-10 algn-r-v3" (click)="return()">
+          Cancelar
+        </button>
+      </div>
+    </div>
+    <div class="bg-white">
+      <div id="scrollView">
+        <div id="viewer"></div>
+      </div>
+    </div>
+  </div>
+</div>
