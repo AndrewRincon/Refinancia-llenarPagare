@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { AppLayoutMainComponent } from "./layout-main/layout-main.component";
-import { AppNavComponent } from "./nav/nav.component";
 import { LoaderComponent } from './loader/loader.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderInterceptor } from '../core/interceptors/loader.interceptor';
@@ -17,13 +16,13 @@ import { MatSelectModule } from '@angular/material';
 import { AppLayoutMainPlantillaComponent } from './layout-main-plantilla/layout-main-plantilla.component';
 import { AppNavPlantillaComponent } from './nav-plantilla/nav-plantilla.component';
 import { DemoComponent } from "../vistas/demo/demo.component";
+import { AppHttpInterceptor } from "../core/interceptors/http.interceptor";
 
 
 @NgModule({
   declarations: [
     AppLayoutMainComponent,
     AppLayoutMainPlantillaComponent,
-    AppNavComponent,
     AppNavPlantillaComponent,
     LoaderComponent,
     AppConfigurationLayoutComponent,
@@ -44,6 +43,11 @@ import { DemoComponent } from "../vistas/demo/demo.component";
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AppHttpInterceptor,
       multi: true
     }
   ],

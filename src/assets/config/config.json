@@ -1,0 +1,11 @@
+{
+  "endpoint": {
+    "endpointAPIGateway": "https://olsrvprewbce01:8150/",
+    "endpointPortalComercio": "https://10.130.3.11:7120/"
+  },
+  "params": {
+    "usuarioApi": "reconoser",
+    "claveApi": "Olimpia12345.",
+    "SECRET_KEY": "0l1mp14"
+  }
+}

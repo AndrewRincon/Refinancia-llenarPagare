@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatSelectModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -14,6 +14,11 @@ import { SubirPlantillaComponent } from './vistas/modales/subir-plantilla/subir-
 import { AppLayoutsModule } from './layouts/layout.module';
 import { Globals } from './global/globals';
 import { AppRouteGuard } from './core/guards/route.guard';
+import { AppConfig } from './global/app.config';
+
+export function initializeApp(appConfig: AppConfig) {
+  return () => appConfig.load();
+}
 
 @NgModule({
   declarations: [
@@ -31,7 +36,16 @@ import { AppRouteGuard } from './core/guards/route.guard';
   ],
   exports: [SubirPlantillaComponent, HttpClientModule],
   entryComponents: [SubirPlantillaComponent],
-  providers: [Globals, AppRouteGuard],
+  providers: [
+    Globals,
+    AppRouteGuard,
+    AppConfig,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [AppConfig], multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,7 +4,7 @@ import { AppTokenService } from "../services/token.service";
 
 @Injectable({ providedIn: "root" })
 export class AppHttpInterceptor implements HttpInterceptor {
-    constructor(private readonly appTokenService: AppTokenService) { }
+    constructor(public readonly appTokenService: AppTokenService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler) {
         request = request.clone({

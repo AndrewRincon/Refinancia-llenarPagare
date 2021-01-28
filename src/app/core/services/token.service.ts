@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 
 @Injectable({ providedIn: "root" })
 export class AppTokenService {
-    private token = "token";
+    private token = "tokenApi";
 
     clear(): void {
         localStorage.removeItem(this.token);

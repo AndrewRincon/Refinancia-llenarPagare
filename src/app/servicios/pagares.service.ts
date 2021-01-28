@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 import { Globals } from '../global/globals';
-import { PagareDiligenciamientoModel } from '../modelos/pagareDiligenciamiento.model';
-import { PeticionPagare } from '../modelos/peticionPagare';
-import { RespuestaViewModel } from '../modelos/respuestaview.model';
-import { CantidadMenuModel } from '../modelos/CantidadMenu.model';
+import { PagareDiligenciamientoSerialModel } from '../modelos/pagareDiligenciamiento.model';
+import { PeticionPagare, PeticionPagareSerial } from '../modelos/peticionPagare.model';
+import { AppTokenService } from '../core/services/token.service';
+import * as Utils from 'src/app/utilidades/utils';
+import { Router } from '@angular/router';
+import { AppConfig } from '../global/app.config';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -17,37 +19,37 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class PagaresService {
-
     constructor(private httpClient: HttpClient,
+      private router: Router,
+      public readonly appTokenService: AppTokenService,
         public globals: Globals
     ) { }
-
-    obtenerCantidadPagares(empresaId: number) {
-      this.httpClient.get(`Pagare/ObtenerCantidadPagares/${empresaId}`).subscribe((Respuesta: RespuestaViewModel<CantidadMenuModel>) => {
-
-          this.globals.cantidadPagares = Respuesta.resultado[0].cantidadPagaresInicial;
-          this.globals.cantidadPagaresInicial = this.convert(Respuesta.resultado[0].cantidadPagaresInicial).toString();
-          this.globals.cantidadEndososInicial = this.convert(Respuesta.resultado[0].cantidadEndososInicial).toString();
-          this.globals.cantidadRecepcionPagares = this.convert(Respuesta.resultado[0].cantidadRecepcionPagares).toString();
-          this.globals.cantidadProcesoPagares = this.convert(Respuesta.resultado[0].cantidadProcesoPagares).toString();
-          this.globals.cantidadCanceladosPagares = this.convert(Respuesta.resultado[0].cantidadCanceladosPagares).toString();
-      });
+    
+    ValidarPagareDiligenciamiento(peticionPagare: PeticionPagare) {
+    return this.httpClient.post(AppConfig.settings.endpoint.endpointAPIGateway + `Pagare/ValidarPagareDiligenciamiento/`, peticionPagare, httpOptions);
   }
 
-  ValidarPagareDiligenciamiento(peticionPagare: PeticionPagare) {
-    return this.httpClient.post(`Pagare/ValidarPagareDiligenciamiento/`, peticionPagare, httpOptions);
-  }
-  Diligenciamiento(peticionPagare: PagareDiligenciamientoModel) {
-    return this.httpClient.post(`Pagare/Diligenciamiento/`, peticionPagare, httpOptions);
+  ValidarPagareDiligenciamientoSerial(peticionPagare: PeticionPagareSerial) {
+    return this.httpClient.post(AppConfig.settings.endpoint.endpointAPIGateway + `Pagare/ValidarPagareDiligenciamientoSerial/`, peticionPagare, httpOptions);
   }
 
-  convert(value: number) {
-        var length = (value + '').length,
-            index = Math.ceil((length - 3) / 3),
-            suffix = ['K', 'M', 'B', 'T'];
+  DiligenciamientoSerial(peticionPagare: PagareDiligenciamientoSerialModel) {
+    return this.httpClient.post(AppConfig.settings.endpoint.endpointAPIGateway +`Pagare/FirmarPagareDiligenciamientoSerial/`, peticionPagare, httpOptions);
+  }
+  
+  returnPortalComercio(estado: number, mensaje: string){
+    window.location.href = AppConfig.settings.endpoint.endpointPortalComercio + 'main/previewpagare/' + this.getParametrosRetornar(estado,mensaje);
+  }
 
-        if (length < 4) return value;
-        return (value / Math.pow(1000, index)).toFixed(1) + suffix[index - 1];
-    }
+  getParametrosRetornar(estado: number, mensaje: string){
+    return Utils.encryptStringUrl(sessionStorage.getItem("pagareSerial"), AppConfig.settings.params.SECRET_KEY) + "/"
+    + Utils.encryptStringUrl(sessionStorage.getItem("documento"), AppConfig.settings.params.SECRET_KEY) + "/"
+    + Utils.encryptStringUrl(sessionStorage.getItem("empresaActualId"), AppConfig.settings.params.SECRET_KEY) + "/"
+    + Utils.encryptStringUrl(sessionStorage.getItem("loginToken"), AppConfig.settings.params.SECRET_KEY) + "/"
+    + Utils.encryptStringUrl(sessionStorage.getItem("tipoDocumento"), AppConfig.settings.params.SECRET_KEY) + "/"
+    + Utils.encryptStringUrl(estado.toString(), AppConfig.settings.params.SECRET_KEY) + "/"
+    + Utils.encryptStringUrl(mensaje, AppConfig.settings.params.SECRET_KEY);
+    
+  }
 
 }

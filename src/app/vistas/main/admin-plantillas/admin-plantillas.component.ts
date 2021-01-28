@@ -105,7 +105,7 @@ export class AdminPlantillasComponent implements OnInit {
     if (this.ProcesoCliente != null && this.ProcesoCliente.length > 0) {
       this.pagareService.ValidarPagareDiligenciamiento({ IdProcesoClienteExterno: this.ProcesoCliente}).subscribe((Respuesta: RespuestaBaseHttp) => {
         if (Respuesta.codigoHttp == 200) {
-          this.fdService.addProcesoClienteExterno(this.ProcesoCliente);
+          this.fdService.addPagareSerial(this.ProcesoCliente);//cambia por procesoClienteExterno
           this.fdService.addFiles(Respuesta);
           //this.fdService.addFileName(Respuesta.mensaje);
           this.router.navigateByUrl('main/plantilla');

@@ -10,11 +10,11 @@ import { PreviewPlantillaComponent } from './vistas/main/preview-plantilla/previ
 const routes: Routes = [
   {
     path: "",
-      component: AppLayoutMainComponent,
+      component: AppLayoutMainPlantillaComponent,
         children: [
           {
             path: '',
-            component: AdminPlantillasComponent
+            component: CrearPlantillaComponent
           }
         ]
   },
@@ -23,19 +23,13 @@ const routes: Routes = [
     component: AppLayoutMainComponent,
     children: [
       {
-        path: 'previewplantilla/:empresa',
+        path: 'previewplantilla/:pagareSerial/:documento/:empresaActualId/:empresaActualNombre/:loginToken/:tipoDocumento',
         component: PreviewPlantillaComponent
-      }
-    ]
-  },
-  {
-    path: "main",
-    component: AppLayoutMainComponent,
-    children: [
+      },
       {
         path: 'plantillas',
         component: AdminPlantillasComponent
-      }
+      }      
     ]
   },
   {

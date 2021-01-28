@@ -3,6 +3,7 @@ import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Router, RouterStat
 import { AppTokenService } from "../services/token.service";
 import * as Utils from 'src/app/utilidades/utils';
 import { Globals } from "src/app/global/globals";
+import { AppConfig } from "src/app/global/app.config";
 
 @Injectable({ providedIn: "root" })
 export class AppRouteGuard implements CanActivate {
@@ -16,7 +17,7 @@ export class AppRouteGuard implements CanActivate {
         console.log(route);
         console.log(state);
         var empresa = this.activatedRoute.snapshot.paramMap.get('empresa');
-        sessionStorage.setItem("empresa", Utils.desencryptString(empresa, this.globals.SECRET_KEY))
+        sessionStorage.setItem("empresa", Utils.desencryptString(empresa, AppConfig.settings.params.SECRET_KEY))
         this.router.navigate(["main/plantilla"]);
         return false;
     }

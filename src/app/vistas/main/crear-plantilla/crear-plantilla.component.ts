@@ -18,6 +18,7 @@ import { LoaderService } from '../../../core/services/loader.service';
 import * as Utils from 'src/app/utilidades/utils';
 import { PagaresService } from '../../../servicios/pagares.service';
 import { RespuestaBase, RespuestaBaseHttp } from '../../../modelos/respuestabase.model';
+import { LlenadoPagareEstados } from 'src/app/enumeradores/ModuloPagares/LlenadoPagareEnum';
 //import * as Utils from 'src/app/Utilidades/utils';
 //import { SessionService } from 'src/app/servicios';
 
@@ -50,7 +51,7 @@ export class CrearPlantillaComponent implements AfterViewInit, OnInit, OnDestroy
 
   file: Uint8Array;
   fileName: string;
-  procesoClienteExterno: string;
+  pagareSerial: string;
   showMobileMenu = false;
   activeProperties = true;
 
@@ -85,26 +86,26 @@ export class CrearPlantillaComponent implements AfterViewInit, OnInit, OnDestroy
 
   ngOnInit(): void {
     this.loaderService.startLoading();
-    this.editIdTemplate = this.activatedRoute.snapshot.paramMap.get('id');
-    // this.getProcesoCliente();
+    //this.editIdTemplate = this.activatedRoute.snapshot.paramMap.get('id');
+    this.getPagareSerial();
   }
 
-  getProcesoCliente(): void {
-    this.fdService.procesoClienteExterno$.subscribe((data: any) => {
-      this.procesoClienteExterno = data;
+  getPagareSerial(): void {
+    this.fdService.pagareSerial$.subscribe((data: any) => {
+      this.pagareSerial = data;
     });
   }
 
   async ngAfterViewInit(): Promise<void> {
     await this.initWebViewer();
-    // await this.getFiles();
+    await this.getFiles();
     this.init();
   }
 
   async initWebViewer(): Promise<void> {
     this.webViewerInstance = await WebViewer({
       path: '/assets/webviewer',
-      initialDoc: '/assets/webviewer/base64.pdf',
+      //initialDoc: '/assets/webviewer/base64.pdf',
       css: '/assets/webviewer/custom/styles.css',
       disabledElements: [
         'header',
@@ -282,7 +283,7 @@ export class CrearPlantillaComponent implements AfterViewInit, OnInit, OnDestroy
 
   init(): void {
     const blob = new Blob([this.file], { type: 'application/pdf' });
-    // this.webViewerInstance.loadDocument(blob, { extension: 'pdf' });
+    this.webViewerInstance.loadDocument(blob, { extension: 'pdf' });
     this.loaderService.stopLoading();
   }
 
@@ -506,7 +507,7 @@ export class CrearPlantillaComponent implements AfterViewInit, OnInit, OnDestroy
   }
 
   return() {
-    this.router.navigateByUrl('main/plantillas');
+    this.pagareService.returnPortalComercio(LlenadoPagareEstados.Cancelado, "Se ha cancelado la modificación del pagaré");
   }
 
   toggleSignerMenu(): void {
@@ -597,12 +598,11 @@ export class CrearPlantillaComponent implements AfterViewInit, OnInit, OnDestroy
     //const blob = new Blob([arrPagare], { type: 'application/pdf' });
     const pdfBase64 = Utils.Uint8ArrayToStringBase64(arrPagare);
     
-    this.pagareService.Diligenciamiento({ IdProcesoClienteExterno: this.procesoClienteExterno, ArchivoPagareByte: pdfBase64 }).subscribe((Respuesta: RespuestaBaseHttp) => {
+    this.pagareService.DiligenciamientoSerial({ SerialPagare: this.pagareSerial, ArchivoPagareByte: pdfBase64 }).subscribe((Respuesta: RespuestaBaseHttp) => {
       if (Respuesta.codigoHttp == 200) {
         if (download)
           this.showPdf(Respuesta.codigo);
-        this.toastr.success('Plantilla creada correctamente');
-        this.router.navigateByUrl('main/plantillas');
+          this.pagareService.returnPortalComercio(LlenadoPagareEstados.Exitoso, "Plantilla creada correctamente");
       } else {
         if (Respuesta.mensaje != null) {
           this.toastr.error(Respuesta.mensaje);

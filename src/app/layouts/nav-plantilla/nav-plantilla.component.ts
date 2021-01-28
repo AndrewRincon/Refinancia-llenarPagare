@@ -11,6 +11,9 @@ import { PagaresService } from "../../servicios/pagares.service"
 import { DefinicionFiltroModel } from '../../modelos/definicionfiltro.model';
 import { PersonaModel } from '../../modelos/persona.model';
 import { TipoPersonaEnum } from '../../enumeradores/ModuloAdministracion/RolPersonaEnum';
+import * as Utils from 'src/app/utilidades/utils';
+import { LlenadoPagareEstados } from 'src/app/enumeradores/ModuloPagares/LlenadoPagareEnum';
+
 @Component({
   selector: 'app-nav-plantilla',
   templateUrl: './nav-plantilla.component.html',
@@ -43,143 +46,50 @@ export class AppNavPlantillaComponent implements OnInit {
 
 
     ngOnInit() {
-    //     let loginToken: string = sessionStorage.getItem("loginToken");
-    //     this.validaSessionToken.sessionToken = loginToken;
-    //     if (!sessionStorage.getItem("documento")) {
-    //         this.CerrarSesion();
-    //     }
-    //     let identificacion = +sessionStorage.getItem("documento");
-
-       
-
-    //     this.validaSessionToken.identificacion = identificacion.toString();
-    //     this._seguridadService.ValidarSession(this.validaSessionToken).subscribe((Respuesta: boolean) => {
-    //         if (!Respuesta) {
-    //             this.CerrarSesion();
-    //         }
-    //     });
-
-    //   this.globals.empresas = JSON.parse(sessionStorage.getItem("empresas"));
-    //   for (var i = 0; i < length; i++) {
-    //     if (identificacion == this.globals.empresas[i].empresaIdentificacion) {
-
-    //     }
-    //   }
-     
-    //     //this.globals.empresas = this.globals.empresas;
-
+        let loginToken: string = sessionStorage.getItem("loginToken");
+        this.validaSessionToken.sessionToken = loginToken;
+        if (!sessionStorage.getItem("documento")) {
+            console.log("Cerrar sesion 1");
+            this.CerrarSesion();
+        }
         
-    
-    //     if (this.globals.empresas.length > 0) {
-    //         if (sessionStorage.getItem("empresaActual")) {
-    //             this.globals.empresaActual = JSON.parse(sessionStorage.getItem("empresaActual"));
-    //         }
-    //         else {
-    //             this.globals.empresaActual = this.globals.empresas[0];
-
-    //             sessionStorage.setItem("empresaActual", JSON.stringify(this.globals.empresaActual));
-    //         }
-            
-    //       this._administracionService.obtenerPersonaRol(sessionStorage.getItem("documento"), this.globals.empresaActual.id).subscribe((Respuesta: PersonaModel) => {
-          
-    //             if (Respuesta) {
-    //                 this.Persona = Respuesta;
-    //                 if (this.Persona.TipoPersonaId == TipoPersonaEnum.RepresentanteLegal)
-    //                     this.RolPersona = "Representante Legal";
-    //                 if (this.Persona.TipoPersonaId == TipoPersonaEnum.Ayudante)
-    //                     this.RolPersona = "Ayudante";
-    //             }
-    //         });
-
-    //       this._administracionService.ValidarCertificado(identificacion, this.globals.empresaActual.id).subscribe((ResCert: CertificadoDigitalModel) => {
-          
-    //             let today = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
-    //           let dateCert = this.datePipe.transform(ResCert.certificadoFechaVigencia, 'yyyy-MM-dd');
+        this.validaSessionToken.identificacion = sessionStorage.getItem("documento");
+        this._seguridadService.ValidarSession(this.validaSessionToken).subscribe((Respuesta: boolean) => {
+            if (!Respuesta) {
+                console.log("Cerrar sesion 2");
+                this.CerrarSesion();
+            }
+        });
         
-    //             var fechaInicio = new Date(dateCert).getTime();
-    //             var fechaFin = new Date(today).getTime();
-    //             var diff = fechaInicio - fechaFin;
-    //             let dias = diff / (1000 * 60 * 60 * 24)
-    //             if (dias <= 5) {
-    //                 if (dias < 0) {
-    //                     this.toastr.info('Su certificado ya venció para: ' + this.globals.empresaActual.empresaRazonSocial + ', por favor renuevelo.');
-    //                 }
-    //                 else
-    //                     this.toastr.info('Recuerde que su certificado vence en ' + dias + '.');
-    //             }
+        if(this.globals.empresaActual == null){
+            this.globals.empresaActual = new EmpresasLogin();
+            this.globals.empresaActual.empresaRazonSocial = sessionStorage.getItem("empresaActualNombre");
+            this.globals.empresaActual.id = parseInt(sessionStorage.getItem("empresaActualId"));
+        } 
 
-    //         });
-
-    //       this.menuHabilitado = this.globals.empresaActual.certificadoActivo;
-    //       if (this.globals.empresaActual.tipoPersona == 2) {
-    //         this.menuHabilitado = this.globals.empresaActual.certificadoActivo;
+        this._administracionService.obtenerPersonaRol(sessionStorage.getItem("documento"), this.globals.empresaActual.id).subscribe((Respuesta: PersonaModel) => {
           
-    //       }
-    //         this.globals.navRazonSocialActual = this.globals.empresaActual.empresaRazonSocial;
-    //         this.globals.navEmpresaIdentificacion = this.globals.empresaActual.empresaIdentificacion;
-    //         this.globals.logoActivo = this.globals.empresaActual.empresaLogo;
-    //         this.ddlEmpresaSelectedValue = this.globals.empresaActual.id.toString();
-
-    //         if (this.globals.empresaActual.tipoPersona == 1) {
-    //             this.menuRL = true;
-    //         }
-    //         else {
-                this.menuRL = false;
-    //         }
-
-    //         if (!this.menuHabilitado) {
-    //             this.router.navigateByUrl("main/certificado");
-    //         }
-    //     }
-    //     else {
-    //         this.globals.navRazonSocialActual = "";
-    //         this.globals.navEmpresaIdentificacion = 0;
-            this.menuHabilitado = false;
-    //     }
+            if (Respuesta) {
+                this.Persona = Respuesta;
+                if (this.Persona.TipoPersonaId == TipoPersonaEnum.RepresentanteLegal)
+                    this.RolPersona = "Representante Legal";
+                if (this.Persona.TipoPersonaId == TipoPersonaEnum.Ayudante)
+                    this.RolPersona = "Ayudante";
+            }
+        });
+        
+        this.menuRL = false;
+        this.menuHabilitado = false;
     }
 
-    
-  CambioCompania(compania: string) {
-    let urlActual = this.router.url;
-    let companiaSeleccionada: EmpresasLogin[] = this.globals.empresas.filter(function (f) { return f.id == +compania });
-
-        this.globals.empresaActual = companiaSeleccionada[0];
-        this.globals.navRazonSocialActual = this.globals.empresaActual.empresaRazonSocial;
-        this.globals.navEmpresaIdentificacion = this.globals.empresaActual.empresaIdentificacion;
-        this.globals.logoActivo = this.globals.empresaActual.empresaLogo;
-        sessionStorage.setItem("empresaActual", JSON.stringify(companiaSeleccionada[0]));
-        if (this.globals.empresaActual.certificadoActivo && this.globals.empresaActual.vigenciaCertificado) {
-            this.router.navigateByUrl(urlActual);
-            this.menuHabilitado = true;
-            if (this.globals.empresaActual.tipoPersona == 1) {
-                this.menuRL = true;
-            }
-            else {
-                this.menuRL = false;
-            }
-        }
-        else {
-            this.router.navigateByUrl("main/certificado");
-            this.menuHabilitado = false;
-        }
-
+    returnMain(){
+        this.pagareService.returnPortalComercio(LlenadoPagareEstados.Cancelado, "Se ha cancelado la modificación del pagaré");
     }
-
-    //SubmenuConfiguracion() {
-    //    this.desplegarSubmenuConfig = !this.desplegarSubmenuConfig;
-    //}
-
-    //Configuracion(route: string) {
-    //    sessionStorage.setItem("EsConfiguracionInicial", "0");
-    //    this.router.navigateByUrl(route);
-    //}
 
     CerrarSesion() {
-        sessionStorage.clear();
-        localStorage.clear();
         this.globals.logoActivo = "";
         this.globals.navRazonSocialActual = "";
         this.globals.empresaActual = null;
-        this.router.navigateByUrl("");
+        this.pagareService.returnPortalComercio(LlenadoPagareEstados.CerrarSesion, "Se ha cerrado la sesion");
     }
 }

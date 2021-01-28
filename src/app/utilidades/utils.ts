@@ -96,10 +96,26 @@ export function encryptString(strEncrypt, key) {
 }
 
 /**
+ * Gets the string encripted
+ */
+export function encryptStringUrl(strEncrypt, key) {
+let strEncryptReady = CryptoJS.AES.encrypt(strEncrypt, key).toString().replace(/\//g, '#').replace(/\+/g, '$');
+    return encodeURIComponent(strEncryptReady);
+  }
+  
+/**
  * Gets the string desencripted
  */
-export function desencryptString(strEncrypt, key) {
-    return CryptoJS.AES.decrypt(strEncrypt, key).toString(CryptoJS.enc.Utf8);
+export function desencryptString(strDesencrypt, key) {
+    return CryptoJS.AES.decrypt(strDesencrypt, key).toString(CryptoJS.enc.Utf8);
+}
+
+/**
+ * Gets the string desencripted
+ */
+export function desencryptStringUrl(strDesencrypt, key) {
+    let strDesencryptReady = decodeURIComponent(strDesencrypt);
+    return CryptoJS.AES.decrypt(strDesencryptReady.replace(/\#/g, '/').replace(/\$/g, '+'), key).toString(CryptoJS.enc.Utf8);
 }
 
 /**

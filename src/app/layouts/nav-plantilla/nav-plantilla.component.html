@@ -1,13 +1,20 @@
 <!--BARRA SUPERIOR-->
 <div class="desk-nav-bar">
   <div class="app-logo">
-    <a [routerLink]='["/main/pagares"]'>
+    <a (click)="returnMain()">
       <img class="logo" src="../../../assets/img/logo-white5.svg" alt="">
     </a>
   </div>
 
   <div class="select-box">
-    
+    <div *ngIf="globals.empresaActual != null" class="slt-company">
+      <select class="custom-select my-select">
+        <option [value]="globals.empresaActual.id"> {{globals.empresaActual.empresaRazonSocial}}</option>
+      </select>
+      <div class="ico-arrow">
+        <i class="icon-arrow-point-to-right"></i>
+      </div>
+    </div>
   </div>
 
   <div class="profile-btn">

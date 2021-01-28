@@ -11,12 +11,12 @@ export class FiledataService {
   private firmantes = new BehaviorSubject<any[]>([])
   private pdfsrc = new BehaviorSubject<Uint8Array>(new Uint8Array)
   private fileName = new BehaviorSubject<any>({})
-  private procesoClienteExterno = new BehaviorSubject<any>({})
+  private pagareSerial = new BehaviorSubject<any>({})
   filesListener$ = this.filesData.asObservable()
   firmantesListener$ = this.firmantes.asObservable()
   pdfsrcListener$ = this.pdfsrc.asObservable()
   fileNameListener$ = this.fileName.asObservable()
-  procesoClienteExterno$ = this.procesoClienteExterno.asObservable()
+  pagareSerial$ = this.pagareSerial.asObservable()
 
   constructor() { }
 
@@ -36,7 +36,7 @@ export class FiledataService {
     this.fileName = fileName;
   }
 
-  addProcesoClienteExterno(procesoClienteExterno: any) {
-    this.procesoClienteExterno.next(procesoClienteExterno);
+  addPagareSerial(pagareSerial: any) {
+    this.pagareSerial.next(pagareSerial);
   }
 }

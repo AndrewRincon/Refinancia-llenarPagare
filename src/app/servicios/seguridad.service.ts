@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { LoginRequest, SessionTokenModel } from "../modelos/login.model";
+import { Globals } from '../global/globals';
+import { TokenRequest } from '../modelos/tokenRequest.model';
+import { AppConfig } from '../global/app.config';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -12,21 +15,15 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class SeguridadService {
-
-  constructor(private httpClient: HttpClient) { }
-
-  VerificarExistenciaUsuario(idTipo: string, id: string) {
-    return this.httpClient.get(`Seguridad/VerificarExistenciaUsuario/${id}/${idTipo}`);
-  }
-
-  login(numeroDocumento: string, TextoOTP: string) {
-    let login: LoginRequest = new LoginRequest();
-    login.documentoIdentificacion = +numeroDocumento;
-    login.textoOTP = TextoOTP;
-    return this.httpClient.post(`Seguridad/login`, login, httpOptions);
-  }
+  constructor(private httpClient: HttpClient, 
+    public globals: Globals) { }
 
   ValidarSession(session: SessionTokenModel) {
-    return this.httpClient.post(`Seguridad/ValidarSession`, session, httpOptions);
+    return this.httpClient.post(AppConfig.settings.endpoint.endpointAPIGateway + `Seguridad/ValidarSession`, session, httpOptions);
+  }
+
+  LoginToken() {
+    let requestModel :TokenRequest = {User: AppConfig.settings.params.usuarioApi, Password: AppConfig.settings.params.claveApi};
+    return this.httpClient.post(AppConfig.settings.endpoint.endpointAPIGateway + `Seguridad/Token/Login`, requestModel, httpOptions);
   }
 }
