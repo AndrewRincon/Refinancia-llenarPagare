@@ -90,6 +90,6 @@ export class AppNavPlantillaComponent implements OnInit {
         this.globals.logoActivo = "";
         this.globals.navRazonSocialActual = "";
         this.globals.empresaActual = null;
-        this.pagareService.returnPortalComercio(LlenadoPagareEstados.CerrarSesion, "Se ha cerrado la sesion");
+        //this.pagareService.returnPortalComercio(LlenadoPagareEstados.CerrarSesion, "Se ha cerrado la sesion");
     }
 }

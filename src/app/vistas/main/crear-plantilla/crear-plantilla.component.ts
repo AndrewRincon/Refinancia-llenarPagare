@@ -87,7 +87,7 @@ export class CrearPlantillaComponent implements AfterViewInit, OnInit, OnDestroy
   ngOnInit(): void {
     this.loaderService.startLoading();
     //this.editIdTemplate = this.activatedRoute.snapshot.paramMap.get('id');
-    this.getPagareSerial();
+    //this.getPagareSerial();
   }
 
   getPagareSerial(): void {
@@ -98,14 +98,14 @@ export class CrearPlantillaComponent implements AfterViewInit, OnInit, OnDestroy
 
   async ngAfterViewInit(): Promise<void> {
     await this.initWebViewer();
-    await this.getFiles();
+    //await this.getFiles();
     this.init();
   }
 
   async initWebViewer(): Promise<void> {
     this.webViewerInstance = await WebViewer({
       path: '/assets/webviewer',
-      //initialDoc: '/assets/webviewer/base64.pdf',
+      initialDoc: '/assets/webviewer/base64.pdf',
       css: '/assets/webviewer/custom/styles.css',
       disabledElements: [
         'header',
@@ -283,7 +283,7 @@ export class CrearPlantillaComponent implements AfterViewInit, OnInit, OnDestroy
 
   init(): void {
     const blob = new Blob([this.file], { type: 'application/pdf' });
-    this.webViewerInstance.loadDocument(blob, { extension: 'pdf' });
+    // this.webViewerInstance.loadDocument(blob, { extension: 'pdf' });
     this.loaderService.stopLoading();
   }
 

@@ -6,6 +6,7 @@ import { AdminPlantillasComponent } from './vistas/main/admin-plantillas/admin-p
 import { AppLayoutMainPlantillaComponent } from './layouts/layout-main-plantilla/layout-main-plantilla.component';
 import { AppRouteGuard } from './core/guards/route.guard';
 import { PreviewPlantillaComponent } from './vistas/main/preview-plantilla/preview-plantilla.component';
+import { DemoComponent } from './vistas/demo/demo.component';
 
 const routes: Routes = [
   {
