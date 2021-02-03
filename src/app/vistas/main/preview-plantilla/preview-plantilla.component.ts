@@ -66,9 +66,11 @@ export class PreviewPlantillaComponent implements OnInit{
     if (sessionStorage.getItem("pagareSerial")) {
       this.pagareService.ValidarPagareDiligenciamientoSerial({ SerialPagare: sessionStorage.getItem("pagareSerial")}).subscribe((Respuesta: RespuestaBaseHttp) => {
         if (Respuesta.codigoHttp == 200) {
-          this.fdService.addPagareSerial(sessionStorage.getItem("pagareSerial"));
-          this.fdService.addFiles(Respuesta);
+          //this.fdService.addPagareSerial(sessionStorage.getItem("pagareSerial"));
+          // this.fdService.addFiles(Respuesta);
           //this.fdService.addFileName(Respuesta.mensaje);
+          sessionStorage.setItem("fileData",Respuesta.codigo)
+          sessionStorage.setItem("fileName",Respuesta.mensaje);
           this.router.navigateByUrl('main/plantilla');
         }else if(Respuesta.codigoHttp == 401){
           this.getToken();

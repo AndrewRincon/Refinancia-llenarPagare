@@ -87,18 +87,20 @@ export class CrearPlantillaComponent implements AfterViewInit, OnInit, OnDestroy
   ngOnInit(): void {
     this.loaderService.startLoading();
     //this.editIdTemplate = this.activatedRoute.snapshot.paramMap.get('id');
-    //this.getPagareSerial();
+    this.pagareSerial = sessionStorage.getItem("pagareSerial");
+    this.file = Utils.stringToUint(sessionStorage.getItem("fileData"))
+      this.fileName = sessionStorage.getItem("fileName");;
   }
 
-  getPagareSerial(): void {
-    this.fdService.pagareSerial$.subscribe((data: any) => {
-      this.pagareSerial = data;
-    });
-  }
+  // getPagareSerial(): void {
+  //   this.fdService.pagareSerial$.subscribe((data: any) => {
+  //     this.pagareSerial = data;
+  //   });
+  // }
 
   async ngAfterViewInit(): Promise<void> {
     await this.initWebViewer();
-    await this.getFiles();
+    // await this.getFiles();
     this.init();
   }
 
@@ -317,12 +319,12 @@ export class CrearPlantillaComponent implements AfterViewInit, OnInit, OnDestroy
 
     });
   }
-  getFiles(): void {
-    this.fdService.filesListener$.subscribe((response: RespuestaBaseHttp) => {
-      this.file = Utils.stringToUint(response.codigo)
-      this.fileName = response.mensaje;
-    });
-  }
+  // getFiles(): void {
+  //   this.fdService.filesListener$.subscribe((response: RespuestaBaseHttp) => {
+  //     this.file = Utils.stringToUint(response.codigo)
+  //     this.fileName = response.mensaje;
+  //   });
+  // }
 
   async setFile(file: File): Promise<void> {
     return new Promise((resolve, _) => {
