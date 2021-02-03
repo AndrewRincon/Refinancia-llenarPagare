@@ -23,7 +23,8 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/assets/webviewer"
+              "src/assets/webviewer",
+              "src/web.config"
             ],
             "styles": [
               "src/custom-theme.scss",

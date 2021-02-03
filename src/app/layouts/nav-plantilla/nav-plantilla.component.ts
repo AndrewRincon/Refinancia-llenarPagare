@@ -20,18 +20,13 @@ import { LlenadoPagareEstados } from 'src/app/enumeradores/ModuloPagares/Llenado
     providers: [DatePipe]
 })
 export class AppNavPlantillaComponent implements OnInit {
-    //globals.empresas: EmpresasLogin[];
     menuHabilitado: boolean = false;
-    //menuResponsive: boolean = false;
     menuRL: boolean = false;
     verPerfil: boolean = false;
-    //desplegarSubmenuConfig: boolean = false;
     validaSessionToken: SessionTokenModel = new SessionTokenModel();
     ddlEmpresaSelectedValue: string = "";
     myDate = new Date();
     Persona: PersonaModel = new PersonaModel();
-    //definicionFiltro: DefinicionFiltroModel = new DefinicionFiltroModel();
-    //identificacion: string;
     RolPersona: String;
 
     constructor(
@@ -49,14 +44,12 @@ export class AppNavPlantillaComponent implements OnInit {
         let loginToken: string = sessionStorage.getItem("loginToken");
         this.validaSessionToken.sessionToken = loginToken;
         if (!sessionStorage.getItem("documento")) {
-            console.log("Cerrar sesion 1");
             this.CerrarSesion();
         }
         
         this.validaSessionToken.identificacion = sessionStorage.getItem("documento");
         this._seguridadService.ValidarSession(this.validaSessionToken).subscribe((Respuesta: boolean) => {
             if (!Respuesta) {
-                console.log("Cerrar sesion 2");
                 this.CerrarSesion();
             }
         });
@@ -90,6 +83,6 @@ export class AppNavPlantillaComponent implements OnInit {
         this.globals.logoActivo = "";
         this.globals.navRazonSocialActual = "";
         this.globals.empresaActual = null;
-        //this.pagareService.returnPortalComercio(LlenadoPagareEstados.CerrarSesion, "Se ha cerrado la sesion");
+        this.pagareService.returnPortalComercio(LlenadoPagareEstados.CerrarSesion, "Se ha cerrado la sesion");
     }
 }

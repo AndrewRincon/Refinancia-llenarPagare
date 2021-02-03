@@ -26,11 +26,7 @@ const routes: Routes = [
       {
         path: 'previewplantilla/:pagareSerial/:documento/:empresaActualId/:empresaActualNombre/:loginToken/:tipoDocumento',
         component: PreviewPlantillaComponent
-      },
-      {
-        path: 'plantillas',
-        component: AdminPlantillasComponent
-      }      
+      }     
     ]
   },
   {

@@ -98,14 +98,14 @@ export class CrearPlantillaComponent implements AfterViewInit, OnInit, OnDestroy
 
   async ngAfterViewInit(): Promise<void> {
     await this.initWebViewer();
-    //await this.getFiles();
+    await this.getFiles();
     this.init();
   }
 
   async initWebViewer(): Promise<void> {
     this.webViewerInstance = await WebViewer({
       path: '/assets/webviewer',
-      initialDoc: '/assets/webviewer/base64.pdf',
+      // initialDoc: '/assets/webviewer/base64.pdf',
       css: '/assets/webviewer/custom/styles.css',
       disabledElements: [
         'header',
@@ -283,7 +283,7 @@ export class CrearPlantillaComponent implements AfterViewInit, OnInit, OnDestroy
 
   init(): void {
     const blob = new Blob([this.file], { type: 'application/pdf' });
-    // this.webViewerInstance.loadDocument(blob, { extension: 'pdf' });
+    this.webViewerInstance.loadDocument(blob, { extension: 'pdf' });
     this.loaderService.stopLoading();
   }
 
@@ -595,7 +595,7 @@ export class CrearPlantillaComponent implements AfterViewInit, OnInit, OnDestroy
     });
 
     const arrPagare = new Uint8Array(data);
-    //const blob = new Blob([arrPagare], { type: 'application/pdf' });
+    const blob = new Blob([arrPagare], { type: 'application/pdf' });
     const pdfBase64 = Utils.Uint8ArrayToStringBase64(arrPagare);
     
     this.pagareService.DiligenciamientoSerial({ SerialPagare: this.pagareSerial, ArchivoPagareByte: pdfBase64 }).subscribe((Respuesta: RespuestaBaseHttp) => {
