@@ -1,7 +1,7 @@
 {
   "endpoint": {
-    "endpointAPIGateway": "https://olsrvprewbce01:8150/",
-    "endpointPortalComercio": "https://10.130.3.11:7120/"
+    "endpointAPIGateway": "https://olnlbprewbce01:8150/",
+    "endpointPortalComercio": "https://tituloselectronicospre.olimpiait.com:7120/"
   },
   "params": {
     "usuarioApi": "reconoser",
