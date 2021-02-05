@@ -108,7 +108,7 @@ export class AdminPlantillasComponent implements OnInit {
           this.fdService.addPagareSerial(this.ProcesoCliente);//cambia por procesoClienteExterno
           this.fdService.addFiles(Respuesta);
           //this.fdService.addFileName(Respuesta.mensaje);
-          this.router.navigateByUrl('main/plantilla');
+          this.router.navigateByUrl('plantilla');
         } else {
           if (Respuesta.mensaje != null) {
             this.toastr.error(Respuesta.mensaje);
@@ -128,7 +128,7 @@ searchAllTemplates() {
   }
   editTemplate(i: number) {
     const id = this.templates[i].id;
-    this.router.navigateByUrl('main/plantilla/' + id);
+    this.router.navigateByUrl('plantilla/' + id);
   }
 
   verifyPDF(name: string): boolean {

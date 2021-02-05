@@ -71,7 +71,7 @@ export class PreviewPlantillaComponent implements OnInit{
           //this.fdService.addFileName(Respuesta.mensaje);
           sessionStorage.setItem("fileData",Respuesta.codigo)
           sessionStorage.setItem("fileName",Respuesta.mensaje);
-          this.router.navigateByUrl('main/plantilla');
+          this.router.navigateByUrl('plantilla');
         }else if(Respuesta.codigoHttp == 401){
           this.getToken();
         } else {

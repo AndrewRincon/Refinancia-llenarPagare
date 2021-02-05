@@ -18,7 +18,7 @@ export class AppRouteGuard implements CanActivate {
         console.log(state);
         var empresa = this.activatedRoute.snapshot.paramMap.get('empresa');
         sessionStorage.setItem("empresa", Utils.desencryptString(empresa, AppConfig.settings.params.SECRET_KEY))
-        this.router.navigate(["main/plantilla"]);
+        this.router.navigate(["plantilla"]);
         return false;
     }
 }

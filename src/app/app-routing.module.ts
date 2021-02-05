@@ -20,7 +20,7 @@ const routes: Routes = [
         ]
   },
   {
-    path: "main",
+    path: "",
     component: AppLayoutMainComponent,
     children: [
       {
@@ -30,7 +30,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: "main",
+    path: "",
     component: AppLayoutMainPlantillaComponent,
     children: [
       {

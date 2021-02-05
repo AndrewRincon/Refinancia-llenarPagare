@@ -23,7 +23,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/assets/webviewer",
+              "src/DiligenciarPagare/assets/webviewer",
               "src/web.config"
             ],
             "styles": [

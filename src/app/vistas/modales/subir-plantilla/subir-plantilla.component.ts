@@ -72,7 +72,7 @@ export class SubirPlantillaComponent implements OnInit, OnDestroy {
                       this.docs.push(file);
                   this.loaderService.stopLoading();
                   this.fdService.addFiles({ codigo: base64, mensaje: file.name, codigoHttp: 200 });
-                      this.router.navigateByUrl('main/plantilla');
+                      this.router.navigateByUrl('plantilla');
                       this.activeModal.close();
                   //  }
                   //});

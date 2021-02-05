@@ -106,7 +106,7 @@ export class CrearPlantillaComponent implements AfterViewInit, OnInit, OnDestroy
 
   async initWebViewer(): Promise<void> {
     this.webViewerInstance = await WebViewer({
-      path: '/assets/webviewer',
+      path: '/DiligenciarPagare/assets/webviewer',
       // initialDoc: '/assets/webviewer/base64.pdf',
       css: '/assets/webviewer/custom/styles.css',
       disabledElements: [
